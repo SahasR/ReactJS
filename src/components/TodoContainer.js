@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from "react";
 import TodosList from "./TodosList";
 import Header from "./Header";
+import InputForm from "./InputForm";
 
 const TodoContainer = () => {
 
@@ -26,13 +27,17 @@ const TodoContainer = () => {
       callBackendAPI();
     }, []);
 
-    useEffect(() => {
-      console.log(todo);
-    }, [todo])
+    // useEffect(() => {
+    //   console.log(todo);
+    // }, [todo])
 
     return(
       <React.Fragment>
           <Header>Task Keeper</Header>
+          <InputForm></InputForm>
+          {todo.length > 0 && 
+            <TodosList todo={todo}/>
+          }  
       </React.Fragment>  
   )
 }
