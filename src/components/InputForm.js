@@ -1,12 +1,15 @@
 import React from 'react';
 
-const InputForm = () => {
+const InputForm = (props) => {
+
+    const insertFunc = props.func;
+
     return (
         <div>
             <h2>Input a new value!</h2>
-            <input placeholder="Task Name"></input>&nbsp;&nbsp;
-            <input placeholder="Description"></input>&nbsp;&nbsp;
-            <button>Insert!</button>
+            <input id="name" placeholder="Task Name"></input>&nbsp;&nbsp;
+            <input id="desc" placeholder="Description"></input>&nbsp;&nbsp;
+            <button onClick={() => insertFunc(document.getElementById("name").value, document.getElementById("desc").value)}>Insert!</button>
         </div>   
     )
 }
