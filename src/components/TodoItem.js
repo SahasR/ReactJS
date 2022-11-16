@@ -6,16 +6,21 @@ class TodoItem extends React.Component{
         this.state = {
             item: this.props.item
         }
-        console.log(this.state.item);
+        this.nameRef = React.createRef();
+        this.descRef = React.createRef();
     }
 
     render() {
+        let {item} = this.state;
+        let {updateBackendAPI} = this.props;
+        let {deleteBackendAPI} = this.props;
+
         return  (
             <div>
-                <li><input type="text" defaultValue={this.state.item.name}></input>&nbsp;&nbsp;
-                <input type="text" defaultValue={this.state.item.desc}></input>&nbsp;&nbsp;
-                <button value="">Edit</button>&nbsp;&nbsp;
-                <button value="">Delete</button>
+                <li><input ref={this.nameRef} type="text" defaultValue={item.name}></input>&nbsp;&nbsp;
+                <input ref={this.descRef} type="text" defaultValue={item.desc}></input>&nbsp;&nbsp;
+                <button onClick={() => updateBackendAPI(item.id, this.nameRef.current.value, this.descRef.current.value)}>Edit</button>&nbsp;&nbsp;
+                <button onClick={() => deleteBackendAPI(item.id)}>Delete</button>
                 </li>
                 &nbsp;
             </div>
