@@ -1,31 +1,32 @@
-import React from "react";
+import React, { useRef } from "react";
+import { ReactReduxContext, useDispatch } from "react-redux";
+import { deleteTodos, updateTodos } from "../redux/action";
 
-class TodoItem extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            item: this.props.item
-        }
-        this.nameRef = React.createRef();
-        this.descRef = React.createRef();
+const TodoItem = (props) => {
+    const item = props.item;
+    const nameRef = useRef();
+    const descRef = useRef();
+
+    const dispatch = useDispatch();
+
+    const callDelete = () => {
+        dispatch(deleteTodos(item.id));
     }
 
-    render() {
-        let {item} = this.state;
-        let {updateBackendAPI} = this.props;
-        let {deleteBackendAPI} = this.props;
+    const callUpdate = () => {
+        dispatch(updateTodos(item.id, nameRef.current.value, descRef.current.value));
+    }
 
-        return  (
-            <div>
-                <li><input ref={this.nameRef} type="text" defaultValue={item.name}></input>&nbsp;&nbsp;
-                <input ref={this.descRef} type="text" defaultValue={item.desc}></input>&nbsp;&nbsp;
-                <button onClick={() => updateBackendAPI(item.id, this.nameRef.current.value, this.descRef.current.value)}>Edit</button>&nbsp;&nbsp;
-                <button onClick={() => deleteBackendAPI(item.id)}>Delete</button>
+    return (
+        <div>
+                <li><input ref={nameRef} type="text" defaultValue={item.name}></input>&nbsp;&nbsp;
+                <input ref={descRef} type="text" defaultValue={item.desc}></input>&nbsp;&nbsp;
+                <button onClick={() => callUpdate()}>Edit</button>&nbsp;&nbsp;
+                <button onClick={() => callDelete()}>Delete</button>
                 </li>
                 &nbsp;
             </div>
-        )
-    }
+    )
 }
 
 export default TodoItem;

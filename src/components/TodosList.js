@@ -13,7 +13,7 @@ const TodosList = (props) => {
             {
                 tasksState.map((item) => {
                     return (
-                    <TodoItem key={item.id} item={item} updateBackendAPI={props.updateBackendAPI} deleteBackendAPI={props.deleteBackendAPI}/>)
+                    <TodoItem key={item.id} item={item}/>)
                 })
             }
         </ul>
