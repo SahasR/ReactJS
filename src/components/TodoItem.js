@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ReactReduxContext, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteTodos, updateTodos } from "../redux/action";
 
 const TodoItem = (props) => {

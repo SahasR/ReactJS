@@ -80,3 +80,37 @@ export const updateTodos = (id, name, desc) => async dispatch => {
     })
       }
 }
+
+export const insertTodos = (name, desc) => async dispatch => {
+    let obj = {};
+    obj.name = name;
+    obj.desc = desc;
+
+    let packetobject = JSON.stringify(obj);
+
+    let response;
+
+    response = await fetch('http://localhost:3001/tasks', {
+    method: 'post',
+    headers: new Headers({
+    'token': 'secretpass',
+    'Content-Type': 'application/json'
+    }),
+    body: packetobject  
+    });
+    
+    const body = await response.json();
+
+    if (response.status !== 200) {
+    alert(response.status + ":" + response.json().message);
+    } else {
+        dispatch({
+        type: TASK_ADDED,
+        payload: {
+        id: body.id,
+        name: body.name,
+        desc: body.desc
+        }
+    })
+    }
+}
