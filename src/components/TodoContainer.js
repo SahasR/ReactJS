@@ -1,11 +1,16 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import TodosList from "./TodosList";
 import Header from "./Header";
 import InputForm from "./InputForm";
+import store from "../store";
+import { useSelector } from "react-redux";
+import { TASK_ADDED, TASK_FETCHED, TASK_UPDATED, TASK_DELETED } from "../const";
 
 const TodoContainer = () => {
 
-    const [todo, setTodos] = useState([])
+    const tasksState = useSelector ((state) => {
+      return state.tasks;
+    })
 
     const callBackendAPI = async () => {
       const response = await fetch('http://localhost:3001/tasks', {
@@ -15,13 +20,18 @@ const TodoContainer = () => {
         })
       });
     
-      const body = await response.json();
+    const body = await response.json();
 
-      if (response.status !== 200) {
-        alert(response.status + ":" + response.message);
-      } 
-
-      setTodos(body);
+    if (response.status !== 200) {
+      alert(response.status + ":" + response.message);
+    } else {
+      store.dispatch({
+        type: TASK_FETCHED,
+        payload: {
+          tasks: body
+        }
+      })
+    }
     }
     
     
@@ -47,10 +57,16 @@ const TodoContainer = () => {
 
       if (response.status !== 200) {
         alert(response.status + ":" + response.message.json());
+      } else {
+        store.dispatch({
+          type: TASK_UPDATED,
+          payload: {
+            id: id,
+            name: name,
+            desc: desc
+          }
+        })
       }
-
-      callBackendAPI();
-
     }
 
     const deleteBackendAPI = async (id) => {
@@ -64,13 +80,19 @@ const TodoContainer = () => {
       });
       
       await response.json();
+      console.log(id);
 
       if (response.status !== 200) {
         alert(response.status + ":" + response.json().message);
+      } else {
+        store.dispatch({
+          type: TASK_DELETED,
+          payload: {
+            id: id
+          }
+        })
       }
-
-      callBackendAPI();
-    }
+    }  
   
     const insertBackendAPI = async (name, desc) => {
       let obj = {};
@@ -93,30 +115,33 @@ const TodoContainer = () => {
       const body = await response.json();
 
       if (response.status !== 200) {
-        console.log(body);
         alert(response.status + ":" + response.json().message);
+      } else {
+        store.dispatch({
+          type: TASK_ADDED,
+          payload: {
+            id: body.id,
+            name: body.name,
+            desc: body.desc
+          }
+        })
       }
-
-      callBackendAPI();
     }
 
     useEffect(() => {
       callBackendAPI();
-    }, []);
-
-    useEffect(() => {
-      console.log(todo);
-    }, [todo])
+    }, [])
 
     return(
       <React.Fragment>
           <Header>Task Keeper</Header>
           <InputForm func={insertBackendAPI}></InputForm>
-          {todo.length > 0 && 
-            <TodosList todo={todo} updateBackendAPI={updateBackendAPI} deleteBackendAPI={deleteBackendAPI}/>
-          }  
+          {
+            tasksState.length > 0 && 
+            <TodosList updateBackendAPI={updateBackendAPI} deleteBackendAPI={deleteBackendAPI}/>
+          }
       </React.Fragment>  
-  )
+    )
 }
 
 export default TodoContainer;
