@@ -1,11 +1,16 @@
-import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
+import { applyMiddleware, createStore } from "redux";
 import tasksReducer from "./reducer";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "@redux-saga/core";
+import { watcherSaga } from "../Sagas/rootSaga";
 
-const store = configureStore({
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore({
     reducer: {
         tasks: tasksReducer
     }
-}, applyMiddleware(thunk));
+}, {} ,applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(watcherSaga);
 
 export default store;
