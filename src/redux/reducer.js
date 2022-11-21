@@ -1,4 +1,13 @@
-import { TASK_ADDED, TASK_FETCHED, TASK_UPDATED, TASK_DELETED } from "./const";
+import { TASK_ADDED, TASK_FETCHED, TASK_UPDATED, TASK_DELETED, FETCH_TASK } from "./const";
+
+export const setToDos = (tasks) => ({
+    type: TASK_FETCHED,
+    tasks
+})
+
+export const getToDos = () => ({
+    type: FETCH_TASK
+})
 
 export default function tasksReducer(state = [], action) {
     switch (action.type){
@@ -12,7 +21,7 @@ export default function tasksReducer(state = [], action) {
                 }
             ]
         case TASK_FETCHED:
-            return action.payload.tasks;
+            return action.tasks;
         case TASK_UPDATED:
             const newstate = state.map((task) => {
                 console.log(task);
@@ -21,7 +30,6 @@ export default function tasksReducer(state = [], action) {
                 }
                 return task;
             })
-            console.log(newstate);
             return newstate;
         case TASK_DELETED:
             return state.filter((task) => task.id !== action.payload.id)

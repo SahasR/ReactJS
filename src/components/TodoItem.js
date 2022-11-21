@@ -10,11 +10,11 @@ const TodoItem = (props) => {
     const dispatch = useDispatch();
 
     const callDelete = () => {
-        //dispatch(deleteTodos(item.id));
+        dispatch(deleteTodos(item.id));
     }
 
     const callUpdate = () => {
-        //dispatch(updateTodos(item.id, nameRef.current.value, descRef.current.value));
+        dispatch(updateTodos(item.id, nameRef.current.value, descRef.current.value));
     }
 
     return (

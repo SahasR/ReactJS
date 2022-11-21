@@ -1,17 +1,19 @@
-import { applyMiddleware } from "redux";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import tasksReducer from "./reducer";
 import createSagaMiddleware from "@redux-saga/core";
 import { watcherSaga } from "../Sagas/rootSaga";
-import { configureStore } from "@reduxjs/toolkit";
 
 const sagaMiddleware = createSagaMiddleware();
 
+const middleware = [sagaMiddleware];
+
+const rootReducer = combineReducers({tasks: tasksReducer})
+
 const store = configureStore({
-    reducer: {
-        tasks: tasksReducer
-    }
-}, applyMiddleware(sagaMiddleware));
+    reducer: rootReducer,
+    middleware: middleware,
+    devTools: true
+});
 
 sagaMiddleware.run(watcherSaga);
 

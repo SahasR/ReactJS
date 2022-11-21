@@ -1,12 +1,12 @@
 import {call, put} from "redux-saga/effects";
-import tasksReducer from "../../redux/reducer";
-import { fetchAllUser } from "../requests/tasks";
+import { setToDos } from "../../redux/reducer";
+import { fetchTodos } from "../requests/tasks";
 
-export function* handleFetchAllUsers(action) {
+export function* handleFetchTodos() {
     try {
-        const response = yield call(fetchAllUser);
+        const response = yield call(fetchTodos);
         const { data } = response;
-        yield put(tasksReducer(data))
+        yield put(setToDos(data));
     } catch (error) {
         console.log(error)
     }

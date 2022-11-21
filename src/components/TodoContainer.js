@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import TodosList from "./TodosList";
 import Header from "./Header";
 import InputForm from "./InputForm";
-import store from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { TASK_ADDED } from "../redux/const";
-import { fetchTodos } from "../redux/action";
+import { getToDos } from "../redux/reducer";
 
 const TodoContainer = () => {
 
@@ -16,8 +14,8 @@ const TodoContainer = () => {
     })
 
     useEffect(() => {
-      dispatch(fetchTodos);
-    }, [])
+      dispatch(getToDos());
+    }, [dispatch])
 
     return(
       <React.Fragment>

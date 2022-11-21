@@ -1,7 +1,7 @@
 import {takeLatest} from "redux-saga/effects";
-import { TASK_FETCHED } from "../redux/const";
-import { handleFetchAllUsers } from "./handlers/tasks";
+import { FETCH_TASK } from "../redux/const";
+import { handleFetchTodos } from "./handlers/tasks";
 
 export function* watcherSaga() {
-    yield takeLatest(TASK_FETCHED, handleFetchAllUsers);
+    yield takeLatest(FETCH_TASK, handleFetchTodos);
 }
